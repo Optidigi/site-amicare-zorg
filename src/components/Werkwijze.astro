@@ -1,0 +1,44 @@
+---
+const principles = [
+  {
+    label: 'Aandacht',
+    body: 'Echt luisteren naar wat een jongere of een gezin op dat moment nodig heeft. Zonder aannames vooraf.',
+  },
+  {
+    label: 'Betrokkenheid',
+    body: 'Naast mensen staan, niet erboven. Werken vanuit gelijkwaardigheid en vertrouwen.',
+  },
+  {
+    label: 'Continuïteit',
+    body: 'Aanwezig blijven, ook als trajecten lang of ingewikkeld worden. De relatie als basis.',
+  },
+];
+---
+<section
+  id="werkwijze"
+  class="px-6 md:px-12 lg:px-20 py-24 md:py-32 border-t border-rule"
+>
+  <div class="max-w-3xl mx-auto text-center space-y-6">
+    <p class="text-[11px] tracking-[0.18em] uppercase text-ink-muted">Werkwijze</p>
+
+    <h2 class="font-serif text-[34px] md:text-[44px] leading-[1.1] tracking-[-0.01em]">
+      Drie dingen die voor mij <span class="italic text-accent">centraal staan</span>.
+    </h2>
+  </div>
+
+  <div class="max-w-5xl mx-auto mt-16 md:mt-20 grid gap-12 md:gap-10 md:grid-cols-3">
+    {principles.map(({ label, body }, i) => (
+      <article class="space-y-4 text-center md:text-left">
+        <p class="font-sans text-[11px] tracking-[0.18em] uppercase text-accent">
+          {String(i + 1).padStart(2, '0')}
+        </p>
+        <h3 class="font-serif text-[28px] md:text-[30px] leading-[1.15] tracking-[-0.005em]">
+          {label}
+        </h3>
+        <p class="text-[16px] md:text-[17px] leading-[1.6] text-ink/85 max-w-[36ch] mx-auto md:mx-0">
+          {body}
+        </p>
+      </article>
+    ))}
+  </div>
+</section>

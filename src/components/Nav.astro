@@ -1,14 +1,21 @@
 ---
 ---
 <nav
-  class="fixed top-0 right-0 left-0 z-10 flex justify-between items-center
-         px-6 md:px-10 py-5 text-[11px] tracking-[0.18em] uppercase
-         bg-bg/80 backdrop-blur-sm"
+  class="sticky top-0 z-50 flex w-full items-center justify-between
+         border-b border-rule bg-bg/80 backdrop-blur-lg
+         px-6 md:px-12 lg:px-20 py-5"
   aria-label="Hoofdnavigatie"
 >
-  <a href="#top" class="font-medium">Amicare-Zorg</a>
-  <div class="flex gap-6 text-ink-muted">
-    <a href="#over" class="hover:text-ink transition-colors">Over</a>
-    <a href="#contact" class="hover:text-ink transition-colors">Contact</a>
+  <a href="#top" class="flex items-center gap-2.5 transition-opacity hover:opacity-80">
+    <span class="inline-block w-2 h-2 rounded-full bg-accent"></span>
+    <span class="font-sans font-medium tracking-[0.18em] uppercase text-[13px]">
+      Amicare-Zorg
+    </span>
+  </a>
+
+  <div class="flex items-center gap-5 md:gap-8 text-[13px] tracking-[0.04em]">
+    <a href="#over" class="text-ink-muted hover:text-ink transition-colors">Over</a>
+    <a href="#werkwijze" class="text-ink-muted hover:text-ink transition-colors">Werkwijze</a>
+    <a href="#contact" class="text-ink-muted hover:text-ink transition-colors">Contact</a>
   </div>
 </nav>
