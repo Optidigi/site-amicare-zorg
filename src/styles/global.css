@@ -1,5 +1,6 @@
 @import '@fontsource-variable/fraunces/index.css';
 @import '@fontsource-variable/inter/index.css';
+@import '@fontsource-variable/caveat/index.css';
 
 @import 'tailwindcss';
 
@@ -9,9 +10,12 @@
   --color-ink-muted: #5A4F44;
   --color-accent: #B45A3C;
   --color-rule: rgba(31, 26, 20, 0.12);
+  --color-card: #FFFFFF;
+  --color-secondary: #EFE9DD;
 
   --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
   --font-serif: 'Fraunces Variable', Georgia, serif;
+  --font-script: 'Caveat Variable', cursive;
 
   --max-width-prose: 58ch;
   --max-width-page: 1080px;
