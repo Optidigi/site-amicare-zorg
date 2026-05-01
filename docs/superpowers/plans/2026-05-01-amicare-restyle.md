@@ -6,7 +6,7 @@
 
 **Architecture:** Per-section Astro islands. Each interactive section (`Nav`, `Hero`, `Werkwijze`, `OverMij`, `WatTelt`) becomes a `.tsx` React component hydrated with `client:load` (above the fold) or `client:visible` (below). Static sections (`Contact`, `Footer`) remain `.astro`. `index.astro` is the orchestrator — imports + client directives only, no logic. New self-hosted Caveat font for hand-script accents. New tokens (`--color-card`, `--color-secondary`, `--font-script`) added to the existing `@theme` block; existing terracotta/cream/ink/Fraunces/Inter tokens unchanged.
 
-**Tech Stack:** Astro 6, Tailwind 4 (via `@tailwindcss/vite`), `@astrojs/react@^4`, React 19, react-dom 19, framer-motion ^12, lucide-react ^0.5x, `@fontsource-variable/caveat`, existing `@fontsource-variable/fraunces` and `@fontsource-variable/inter`, `@astrojs/sitemap`. pnpm. Node 22.
+**Tech Stack:** Astro 6, Tailwind 4 (via `@tailwindcss/vite`), `@astrojs/react@^5` (latest at install time; the v5 line is the one that supports Astro 6 + React 19), React 19, react-dom 19, framer-motion ^12, lucide-react ^1 (latest at install time — same icon names as 0.5x), `@fontsource-variable/caveat`, existing `@fontsource-variable/fraunces` and `@fontsource-variable/inter`, `@astrojs/sitemap`. pnpm. Node 22.
 
 **Project root for all relative paths:** `/home/shimmy/Desktop/env/sandbox/site-amicare-zorg`.
 The repo is already initialised at this path. Current branch: `main`. Implementation is recommended on a feature branch (`feat/zen-restyle`) per Task 1.
