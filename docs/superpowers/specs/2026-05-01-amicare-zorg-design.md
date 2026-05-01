@@ -162,16 +162,11 @@ underlined on hover.
 Single thin terracotta rule above. One line, body-muted, centred or left-aligned:
 
 ```
-© 2026 Amicare-Zorg · KVK {{kvk_number}} · info@amicare-zorg.nl
+© 2026 Amicare-Zorg · KVK 99968347 · info@amicare-zorg.nl
 ```
 
-**Open item:** the project owner needs to provide:
-
-- `kvk_number` — Kamer van Koophandel registration number
-- Whether to include any other identifier (BTW-id, AGB, SKJ registration, etc.)
-- Whether to include a phone number
-
-Footer copy is finalised once those values are known.
+Phone number deferred — owner will provide later if desired; footer ships
+without it for the initial deploy.
 
 ## 6. SEO baseline
 
@@ -316,16 +311,16 @@ amicare-zorg/
   tsconfig.json
 ```
 
-## 9. Open items (require project-owner input before launch)
+## 9. Open items (resolved or deferred)
 
-1. **KVK number** for the footer.
-2. **Other registrations** to display (BTW-id, AGB-code, SKJ-registratie)?
-3. **Phone number** in the footer — yes or no?
-4. **Final imagery pick** (1 of 3 candidates, presented at implementation time).
-5. **`og.png` content review** — once generated, the project owner approves the file before commit.
+1. ~~**KVK number** for the footer.~~ — `99968347` (resolved 2026-05-01).
+2. **Phone number** — deferred; ship without it, add later if owner provides.
+3. **Final imagery pick** — implementer selects from Unsplash without further
+   review; project owner will flag if the chosen photo doesn't fit.
+4. **`og.png` content review** — once generated, project owner reviews
+   before merge.
 
-None of the above block scaffolding or building the site shell; all five can be
-finalised in the last implementation step before the first deploy.
+None of the above block scaffolding, building, or deploying.
 
 ## 10. Out of scope
 
