@@ -3,7 +3,7 @@
 **Date:** 2026-05-01
 **Project:** `optidigi/site-amicare-zorg`
 **Domain:** amicare-zorg.nl
-**Status:** Superseded by post-implementation redesign (see note below)
+**Status:** Superseded — first by the post-implementation note below, then in full by [`2026-05-01-amicare-restyle-design.md`](./2026-05-01-amicare-restyle-design.md) which replaces the IA, components, and performance budget.
 
 ---
 
