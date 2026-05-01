@@ -3,7 +3,7 @@ import { getImage } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Nav from '../components/Nav.tsx';
 import Hero from '../components/Hero.tsx';
-import OverMij from '../components/OverMij.astro';
+import OverMij from '../components/OverMij.tsx';
 import Werkwijze from '../components/Werkwijze.tsx';
 import WatTelt from '../components/WatTelt.astro';
 import Contact from '../components/Contact.astro';
@@ -21,7 +21,7 @@ const toys = await getImage({
   <Nav client:load />
   <Hero client:load toysSrc={toys.src} />
   <Werkwijze client:visible />
-  <OverMij />
+  <OverMij client:visible />
   <WatTelt />
   <Contact />
   <Footer />
