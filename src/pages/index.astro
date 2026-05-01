@@ -1,16 +1,25 @@
 ---
+import { getImage } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Nav from '../components/Nav.tsx';
-import Hero from '../components/Hero.astro';
+import Hero from '../components/Hero.tsx';
 import OverMij from '../components/OverMij.astro';
 import Werkwijze from '../components/Werkwijze.astro';
 import WatTelt from '../components/WatTelt.astro';
 import Contact from '../components/Contact.astro';
 import Footer from '../components/Footer.astro';
+import toysImg from '../assets/toys.jpg';
+
+const toys = await getImage({
+  src: toysImg,
+  format: 'avif',
+  quality: 55,
+  width: 1280,
+});
 ---
 <Base>
   <Nav client:load />
-  <Hero />
+  <Hero client:load toysSrc={toys.src} />
   <Werkwijze />
   <OverMij />
   <WatTelt />
