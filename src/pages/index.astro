@@ -4,7 +4,7 @@ import Base from '../layouts/Base.astro';
 import Nav from '../components/Nav.tsx';
 import Hero from '../components/Hero.tsx';
 import OverMij from '../components/OverMij.astro';
-import Werkwijze from '../components/Werkwijze.astro';
+import Werkwijze from '../components/Werkwijze.tsx';
 import WatTelt from '../components/WatTelt.astro';
 import Contact from '../components/Contact.astro';
 import Footer from '../components/Footer.astro';
@@ -20,7 +20,7 @@ const toys = await getImage({
 <Base>
   <Nav client:load />
   <Hero client:load toysSrc={toys.src} />
-  <Werkwijze />
+  <Werkwijze client:visible />
   <OverMij />
   <WatTelt />
   <Contact />
