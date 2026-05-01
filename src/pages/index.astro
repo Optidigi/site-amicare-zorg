@@ -5,15 +5,22 @@ import Nav from '../components/Nav.tsx';
 import Hero from '../components/Hero.tsx';
 import OverMij from '../components/OverMij.tsx';
 import Werkwijze from '../components/Werkwijze.tsx';
-import WatTelt from '../components/WatTelt.astro';
+import WatTelt from '../components/WatTelt.tsx';
 import Contact from '../components/Contact.astro';
 import Footer from '../components/Footer.astro';
 import toysImg from '../assets/toys.jpg';
+import bedroomImg from '../assets/bedroom.jpg';
 
 const toys = await getImage({
   src: toysImg,
   format: 'avif',
   quality: 55,
+  width: 1280,
+});
+const bedroom = await getImage({
+  src: bedroomImg,
+  format: 'avif',
+  quality: 60,
   width: 1280,
 });
 ---
@@ -22,7 +29,7 @@ const toys = await getImage({
   <Hero client:load toysSrc={toys.src} />
   <Werkwijze client:visible />
   <OverMij client:visible />
-  <WatTelt />
+  <WatTelt client:visible bedroomSrc={bedroom.src} />
   <Contact />
   <Footer />
 </Base>
