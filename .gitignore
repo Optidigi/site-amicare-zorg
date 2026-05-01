@@ -4,5 +4,9 @@ dist/
 .DS_Store
 *.log
 
+# Local env (deploy host config)
+.env
+.env.local
+
 # Brainstorming companion artefacts
 .superpowers/

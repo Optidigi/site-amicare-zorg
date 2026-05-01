@@ -15,8 +15,20 @@ pnpm og           # regenerate public/og.png
 
 ## Deploy
 
-Push to `main`. Coolify pulls, builds the Docker image (`Dockerfile`),
-and runs the container behind Traefik using `compose.yml`.
+Push to `main`. GitHub Actions (`.github/workflows/build.yml`) builds
+the Docker image and pushes it to
+`ghcr.io/optidigi/site-amicare-zorg:latest`.
+
+On the VPS (`/srv/prod/infra/stacks/ami-care/`):
+
+```bash
+docker compose pull
+docker compose up -d
+```
+
+Public traffic is routed by Nginx Proxy Manager. NPM and this container
+share an external docker network (configured via `PROXY_NETWORK` in
+`.env`).
 
 ## Design
 
