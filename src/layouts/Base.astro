@@ -11,7 +11,9 @@ const {
   description = 'Amicare-Zorg — werken in de jeugdzorg met hart en toewijding. Voor informatie of contact: info@amicare-zorg.nl.',
 } = Astro.props;
 
-const canonical = new URL(Astro.url.pathname, Astro.site).toString();
+// Match astro.config trailingSlash: 'never'. Index page becomes the bare origin.
+const path = Astro.url.pathname.replace(/\/$/, '') || '';
+const canonical = new URL(path, Astro.site).toString().replace(/\/$/, '');
 const ogImage = new URL('/og.png', Astro.site).toString();
 ---
 <!doctype html>

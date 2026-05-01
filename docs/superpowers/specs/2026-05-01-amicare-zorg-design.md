@@ -3,7 +3,34 @@
 **Date:** 2026-05-01
 **Project:** `optidigi/site-amicare-zorg`
 **Domain:** amicare-zorg.nl
-**Status:** Pending client (project owner) review
+**Status:** Superseded by post-implementation redesign (see note below)
+
+---
+
+## Implementation note (2026-05-01)
+
+After this spec was approved, the project owner pointed at https://themes.zira.my.id/
+as a layout reference and asked the site to be restructured before launch. The
+**design tokens** (palette, typography, content) below are accurate and shipped;
+the **layout, sections, and component count** are not.
+
+**What actually shipped:**
+
+- Sticky top nav (was: floating top-right)
+- Hero is 2-column on `md+` — text left, the gesture image right with the pull-quote
+  rendered as a floating card overlaid on the image's bottom-left.
+- Five content sections instead of three: `Hero → Over mij → Werkwijze → Wat telt → Contact`,
+  plus `Footer`.
+- Two new Dutch copy blocks were authored: `Werkwijze` (three principles —
+  Aandacht, Betrokkenheid, Continuïteit) and `Wat telt` (a short reflective passage).
+- The standalone `ImageBreak.astro` component described in §3 was deleted —
+  the gesture image lives in the hero.
+- Tailwind 4 with `@tailwindcss/vite` (peer-dep conflict on `@astrojs/tailwind`
+  with current Astro 6); theme tokens live in `src/styles/global.css` via the
+  `@theme` block, not in a separate `tailwind.config.mjs`.
+
+The body copy in §5 below describes the **content** correctly; only the
+**section it lives in** has shifted.
 
 ---
 

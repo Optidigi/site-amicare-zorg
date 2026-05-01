@@ -1,4 +1,6 @@
 ---
+import { Image } from 'astro:assets';
+import exhale from '../assets/exhale.jpg';
 ---
 <section
   id="top"
@@ -28,12 +30,16 @@
 
   <!-- Right column: image with floating pull-quote card -->
   <div class="relative w-full md:w-1/2 max-w-xl mx-auto md:max-w-none">
-    <img
-      src="/images/exhale.jpg"
+    <Image
+      src={exhale}
       alt=""
-      role="presentation"
-      class="w-full aspect-[4/5] md:aspect-[3/4] object-cover
-             rounded-3xl shadow-xl"
+      widths={[640, 960, 1280, 1600]}
+      sizes="(min-width: 768px) 50vw, 100vw"
+      format="avif"
+      quality={70}
+      loading="eager"
+      fetchpriority="high"
+      class="w-full aspect-[4/5] md:aspect-[3/4] object-cover rounded-3xl shadow-xl"
     />
 
     <figure

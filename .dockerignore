@@ -27,3 +27,8 @@ LICENSE
 compose.yml
 docker-compose.yml
 docker-compose.*.yml
+
+# Tooling artefacts
+.playwright-mcp
+*.local
+*.local.*
