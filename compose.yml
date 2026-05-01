@@ -1,0 +1,37 @@
+services:
+  web:
+    build: .
+    image: site-amicare-zorg:latest
+    restart: unless-stopped
+    networks:
+      - coolify
+    labels:
+      - traefik.enable=true
+
+      # Apex: amicare-zorg.nl on websecure
+      - traefik.http.routers.amicare-apex.rule=Host(`amicare-zorg.nl`)
+      - traefik.http.routers.amicare-apex.entrypoints=websecure
+      - traefik.http.routers.amicare-apex.tls=true
+      - traefik.http.routers.amicare-apex.tls.certresolver=letsencrypt
+      - traefik.http.services.amicare-apex.loadbalancer.server.port=80
+
+      # www → apex (HTTPS) redirect
+      - traefik.http.routers.amicare-www.rule=Host(`www.amicare-zorg.nl`)
+      - traefik.http.routers.amicare-www.entrypoints=websecure
+      - traefik.http.routers.amicare-www.tls=true
+      - traefik.http.routers.amicare-www.tls.certresolver=letsencrypt
+      - traefik.http.routers.amicare-www.middlewares=amicare-www-redirect
+      - traefik.http.middlewares.amicare-www-redirect.redirectregex.regex=^https?://www\.amicare-zorg\.nl/(.*)
+      - traefik.http.middlewares.amicare-www-redirect.redirectregex.replacement=https://amicare-zorg.nl/$$1
+      - traefik.http.middlewares.amicare-www-redirect.redirectregex.permanent=true
+
+      # HTTP → HTTPS for both
+      - traefik.http.routers.amicare-http.rule=Host(`amicare-zorg.nl`) || Host(`www.amicare-zorg.nl`)
+      - traefik.http.routers.amicare-http.entrypoints=web
+      - traefik.http.routers.amicare-http.middlewares=amicare-https-redirect
+      - traefik.http.middlewares.amicare-https-redirect.redirectscheme.scheme=https
+      - traefik.http.middlewares.amicare-https-redirect.redirectscheme.permanent=true
+
+networks:
+  coolify:
+    external: true
