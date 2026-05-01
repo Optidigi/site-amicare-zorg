@@ -1,23 +1,58 @@
 ---
 const year = new Date().getFullYear();
 ---
-<footer class="px-6 md:px-12 lg:px-20 py-10 border-t border-rule">
-  <div class="max-w-3xl mx-auto text-center text-[13px] tracking-[0.04em] text-ink-muted space-y-3">
-    <p>
-      &copy; {year} Amicare-Zorg &middot;
-      <a href="mailto:info@amicare-zorg.nl" class="hover:text-ink transition-colors">
-        info@amicare-zorg.nl
-      </a>
-    </p>
+<footer
+  class="relative border-t border-rule bg-gradient-to-br from-secondary/20 via-bg to-accent/5 px-6 py-16 md:px-12 lg:px-24"
+>
+  <div class="mx-auto grid max-w-7xl grid-cols-1 gap-12 md:grid-cols-3 md:gap-8 lg:gap-12">
+    <!-- Left: brand -->
+    <div class="space-y-3">
+      <div class="flex items-center gap-2.5">
+        <span aria-hidden="true" class="inline-block w-2 h-2 rounded-full bg-accent"></span>
+        <span class="font-sans font-medium tracking-[0.18em] uppercase text-[14px] text-ink">
+          AMICARE-ZORG
+        </span>
+      </div>
+      <p class="font-serif italic text-[14px] leading-[1.5] text-ink-muted max-w-[28ch]">
+        Jeugdzorg met hart en toewijding.
+      </p>
+    </div>
 
-    <p class="text-[12px] leading-[1.6] text-ink-muted/75">
-      <span class="whitespace-nowrap">Handelsnaam: AMICARE ZORG</span>
-      <span aria-hidden="true" class="mx-1.5">&middot;</span>
-      <span class="whitespace-nowrap">KVK 99968347</span>
-      <span aria-hidden="true" class="mx-1.5">&middot;</span>
-      <span class="whitespace-nowrap">Vestigingsnr. 000065004922</span>
-      <span aria-hidden="true" class="mx-1.5">&middot;</span>
-      <span class="whitespace-nowrap">Spinsterstraat 17, 6043 RJ Roermond</span>
-    </p>
+    <!-- Center: bedrijfsgegevens -->
+    <div class="space-y-3">
+      <p class="text-[11px] tracking-[0.18em] uppercase text-accent font-medium">
+        Bedrijfsgegevens
+      </p>
+      <div class="space-y-1.5 text-[13px] leading-[1.6] text-ink-muted">
+        <p>Handelsnaam: <span class="text-ink">AMICARE ZORG</span></p>
+        <p>KVK <span class="text-ink">99968347</span></p>
+        <p>Vestigingsnr. <span class="text-ink">000065004922</span></p>
+      </div>
+    </div>
+
+    <!-- Right: contact + adres -->
+    <div class="space-y-3">
+      <p class="text-[11px] tracking-[0.18em] uppercase text-accent font-medium">
+        Contact
+      </p>
+      <div class="space-y-1.5 text-[13px] leading-[1.6] text-ink-muted">
+        <p>Spinsterstraat 17</p>
+        <p>6043 RJ Roermond</p>
+        <p class="pt-1.5">
+          <a
+            href="mailto:info@amicare-zorg.nl"
+            class="text-ink hover:text-accent transition-colors"
+          >
+            info@amicare-zorg.nl
+          </a>
+        </p>
+      </div>
+    </div>
   </div>
+
+  <div class="border-t border-rule my-8 max-w-7xl mx-auto"></div>
+
+  <p class="mx-auto max-w-7xl text-center md:text-left text-[12px] tracking-[0.04em] text-ink-muted/70">
+    &copy; {year} Amicare-Zorg
+  </p>
 </footer>
