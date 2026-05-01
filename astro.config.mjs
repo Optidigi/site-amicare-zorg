@@ -5,7 +5,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://amicare-zorg.nl',
+  site: 'https://ami-care.nl',
   trailingSlash: 'never',
   integrations: [sitemap()],
   vite: {

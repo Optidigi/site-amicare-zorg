@@ -1,4 +1,6 @@
 ---
+import { Image } from 'astro:assets';
+import exhale from '../assets/exhale.jpg';
 ---
 <section
   id="wat-telt"
@@ -20,5 +22,18 @@
       het echte werk doen &mdash; voor jongeren, voor gezinnen, en voor de
       mensen om hen heen.
     </p>
+  </div>
+
+  <div class="max-w-3xl mx-auto mt-12 md:mt-16">
+    <Image
+      src={exhale}
+      alt=""
+      widths={[640, 960, 1280]}
+      sizes="(min-width: 1024px) 768px, 100vw"
+      format="avif"
+      quality={70}
+      loading="lazy"
+      class="w-full aspect-[16/9] object-cover rounded-2xl shadow-md"
+    />
   </div>
 </section>

@@ -1,6 +1,6 @@
 # site-amicare-zorg
 
-One-pager for Amicare-Zorg. Static site, deployed to https://amicare-zorg.nl
+One-pager for Amicare-Zorg. Static site, deployed to https://ami-care.nl
 via Coolify (Docker, Traefik) on the Optidigi VPS.
 
 ## Local development

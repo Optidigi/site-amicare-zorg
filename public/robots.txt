@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://amicare-zorg.nl/sitemap-index.xml
+Sitemap: https://ami-care.nl/sitemap-index.xml

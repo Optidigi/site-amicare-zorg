@@ -33,7 +33,7 @@ const svg = `
   <text x="80" y="560"
         font-family="ui-sans-serif, system-ui, sans-serif"
         font-size="20"
-        fill="#5A4F44">amicare-zorg.nl</text>
+        fill="#5A4F44">ami-care.nl</text>
 </svg>
 `;
 
