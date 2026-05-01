@@ -10,3 +10,6 @@ dist/
 
 # Brainstorming companion artefacts
 .superpowers/
+
+# Local git worktrees
+.worktrees/
