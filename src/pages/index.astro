@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import Nav from '../components/Nav.astro';
+import Nav from '../components/Nav.tsx';
 import Hero from '../components/Hero.astro';
 import OverMij from '../components/OverMij.astro';
 import Werkwijze from '../components/Werkwijze.astro';
@@ -9,7 +9,7 @@ import Contact from '../components/Contact.astro';
 import Footer from '../components/Footer.astro';
 ---
 <Base>
-  <Nav />
+  <Nav client:load />
   <Hero />
   <Werkwijze />
   <OverMij />
