@@ -1,0 +1,52 @@
+@import '@fontsource-variable/fraunces/index.css';
+@import '@fontsource-variable/inter/index.css';
+
+@import 'tailwindcss';
+
+@theme {
+  --color-bg: #FBF7F0;
+  --color-ink: #1F1A14;
+  --color-ink-muted: #5A4F44;
+  --color-accent: #B45A3C;
+  --color-rule: rgba(31, 26, 20, 0.12);
+
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-serif: 'Fraunces Variable', Georgia, serif;
+
+  --max-width-prose: 58ch;
+  --max-width-page: 1080px;
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html {
+    background-color: var(--color-bg);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 17px;
+    line-height: 1.6;
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  @media (min-width: 768px) {
+    html { font-size: 18px; }
+  }
+
+  body {
+    min-height: 100vh;
+  }
+
+  ::selection {
+    background: rgba(180, 90, 60, 0.18);
+  }
+
+  a {
+    color: inherit;
+  }
+}
