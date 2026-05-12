@@ -4,6 +4,20 @@ import { defineMiddleware } from "astro:middleware"
 const ADMIN_ORIGIN = process.env.PUBLIC_ADMIN_ORIGIN ?? "https://admin.siteinabox.nl"
 
 export const onRequest = defineMiddleware(async (ctx, next) => {
+  // Astro 6 excludes any file in src/pages/ whose name starts with `_`
+  // (rule lives in astro/dist/core/routing/create-manifest.js — checked
+  // `name[0] === "_"`, no config escape hatch). That means
+  // `src/pages/__preview.astro` is unbuildable; the on-disk filename
+  // must be `preview.astro`. Payload's PreviewPane hard-codes the URL
+  // `${tenantOrigin}/__preview?t=…`, so we internally rewrite incoming
+  // /__preview requests onto the /preview handler with the query string
+  // preserved. The browser-visible URL stays /__preview.
+  if (ctx.url.pathname === "/__preview") {
+    const target = new URL("/preview", ctx.url)
+    target.search = ctx.url.search
+    return ctx.rewrite(target)
+  }
+
   const res = await next()
 
   // Common security headers (matches the prior nginx.conf baseline).
@@ -16,7 +30,7 @@ export const onRequest = defineMiddleware(async (ctx, next) => {
   res.headers.set("Strict-Transport-Security", "max-age=31536000; includeSubDomains")
 
   const isPreview =
-    ctx.url.pathname === "/__preview" || ctx.url.pathname.startsWith("/__preview/")
+    ctx.url.pathname === "/preview" || ctx.url.pathname.startsWith("/preview/")
 
   if (isPreview) {
     // Allow framing by the admin origin only.

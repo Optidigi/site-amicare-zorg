@@ -7,11 +7,9 @@ const page = await getPage('index');
 ---
 
 <BaseLayout
-  title={page?.title ?? ''}
-  description={page?.description ?? ''}
+  title={page?.title ?? 'Amicare-Zorg'}
+  description={page?.description ?? 'Amicare-Zorg — werken in de jeugdzorg met hart en toewijding.'}
   ogImage={page?.ogImage}
 >
-  <main class="prose mx-auto max-w-3xl px-4 py-16">
-    <Blocks blocks={page?.blocks} />
-  </main>
+  <Blocks blocks={page?.blocks} />
 </BaseLayout>
