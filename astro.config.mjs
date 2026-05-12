@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
+import preact from '@astrojs/preact';
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 
@@ -8,7 +9,14 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://ami-care.nl',
   trailingSlash: 'never',
-  integrations: [react(), sitemap()],
+  // React handles the interactive shell (Nav, anything outside cms/preview).
+  // Preact handles the cms block renderers and live-preview island.
+  // Globs MUST NOT overlap — Astro will fail to compile a .tsx that two integrations claim.
+  integrations: [
+    react({ exclude: ['**/components/cms/**', '**/components/preview/**'] }),
+    preact({ compat: false, include: ['**/components/cms/**', '**/components/preview/**'] }),
+    sitemap(),
+  ],
   vite: {
     plugins: [tailwindcss()],
   },

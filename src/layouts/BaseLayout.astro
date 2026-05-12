@@ -1,0 +1,41 @@
+---
+import '../styles/global.css';
+import Seo from '../components/seo/Seo.astro';
+import JsonLdOrganization from '../components/seo/JsonLdOrganization.astro';
+import JsonLdLocalBusiness from '../components/seo/JsonLdLocalBusiness.astro';
+import Nav from '../components/Nav.tsx';
+import Footer from '../components/Footer.astro';
+import { site } from '../content/site';
+
+interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+  noindex?: boolean;
+}
+
+const { title, description, ogImage, noindex } = Astro.props;
+---
+
+<!doctype html>
+<html lang={site.language}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta name="generator" content={Astro.generator} />
+    <Seo title={title} description={description} ogImage={ogImage} noindex={noindex} />
+    <JsonLdOrganization />
+    <JsonLdLocalBusiness />
+  </head>
+  <body class="bg-bg text-ink">
+    <Nav client:load brand={site.brand} links={site.nav} />
+    <main>
+      <slot />
+    </main>
+    <Footer brand={site.brand} email={site.nap?.email} tagline={site.description} />
+  </body>
+</html>

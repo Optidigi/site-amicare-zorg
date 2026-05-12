@@ -1,35 +1,20 @@
 ---
-import { getImage } from 'astro:assets';
-import Base from '../layouts/Base.astro';
-import Nav from '../components/Nav.tsx';
-import Hero from '../components/Hero.tsx';
-import OverMij from '../components/OverMij.tsx';
-import Werkwijze from '../components/Werkwijze.tsx';
-import WatTelt from '../components/WatTelt.tsx';
-import Contact from '../components/Contact.astro';
-import Footer from '../components/Footer.astro';
-import toysImg from '../assets/toys.jpg';
-import bedroomImg from '../assets/bedroom.jpg';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getEntry, render } from 'astro:content';
 
-const toys = await getImage({
-  src: toysImg,
-  format: 'avif',
-  quality: 55,
-  width: 1280,
-});
-const bedroom = await getImage({
-  src: bedroomImg,
-  format: 'avif',
-  quality: 60,
-  width: 1280,
-});
+const home = await getEntry('pages', 'index');
+if (!home) {
+  throw new Error('Missing required content entry: pages/index');
+}
+const { Content } = await render(home);
 ---
-<Base>
-  <Nav client:load />
-  <Hero client:load toysSrc={toys.src} />
-  <Werkwijze client:visible />
-  <OverMij client:visible />
-  <WatTelt client:visible bedroomSrc={bedroom.src} />
-  <Contact />
-  <Footer />
-</Base>
+
+<BaseLayout
+  title={home.data.title}
+  description={home.data.description}
+  ogImage={home.data.ogImage}
+>
+  <main class="prose mx-auto max-w-3xl px-4 py-16">
+    <Content />
+  </main>
+</BaseLayout>

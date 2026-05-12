@@ -14,6 +14,7 @@
     "og": "node scripts/build-og.mjs"
   },
   "dependencies": {
+    "@astrojs/preact": "^5.1.2",
     "@astrojs/react": "^5.0.4",
     "@astrojs/sitemap": "^3.7.2",
     "@fontsource-variable/caveat": "^5.2.8",
@@ -21,8 +22,11 @@
     "@fontsource-variable/inter": "^5.2.8",
     "@tailwindcss/vite": "^4.2.4",
     "astro": "^6.2.1",
+    "astro-seo": "^1.1.0",
     "framer-motion": "^12.38.0",
+    "lucide-preact": "^1.14.0",
     "lucide-react": "^1.14.0",
+    "preact": "^10.29.1",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "tailwindcss": "^4.2.4"
@@ -34,6 +38,7 @@
     ]
   },
   "devDependencies": {
+    "@tailwindcss/typography": "^0.5.19",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "sharp": "^0.34.5"

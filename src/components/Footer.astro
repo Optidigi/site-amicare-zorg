@@ -1,4 +1,16 @@
 ---
+interface Props {
+  brand?: string;
+  email?: string;
+  tagline?: string;
+}
+
+const {
+  brand = 'AMICARE-ZORG',
+  email = 'info@ami-care.nl',
+  tagline = 'Jeugdzorg met hart en toewijding.',
+} = Astro.props;
+
 const year = new Date().getFullYear();
 ---
 <footer
@@ -10,15 +22,15 @@ const year = new Date().getFullYear();
       <div class="flex items-center gap-2.5">
         <span aria-hidden="true" class="inline-block w-2 h-2 rounded-full bg-accent"></span>
         <span class="font-sans font-medium tracking-[0.18em] uppercase text-[14px] text-ink">
-          AMICARE-ZORG
+          {brand}
         </span>
       </div>
       <p class="font-serif italic text-[14px] leading-[1.5] text-ink-muted max-w-[28ch]">
-        Jeugdzorg met hart en toewijding.
+        {tagline}
       </p>
     </div>
 
-    <!-- Center: bedrijfsgegevens -->
+    <!-- Center: bedrijfsgegevens — hardcoded regulatory identifiers -->
     <div class="space-y-3">
       <p class="text-[11px] tracking-[0.18em] uppercase text-accent font-medium">
         Bedrijfsgegevens
@@ -30,7 +42,7 @@ const year = new Date().getFullYear();
       </div>
     </div>
 
-    <!-- Right: contact + adres -->
+    <!-- Right: contact -->
     <div class="space-y-3">
       <p class="text-[11px] tracking-[0.18em] uppercase text-accent font-medium">
         Contact
@@ -38,10 +50,10 @@ const year = new Date().getFullYear();
       <div class="space-y-1.5 text-[13px] leading-[1.6] text-ink-muted">
         <p class="pt-1.5">
           <a
-            href="mailto:info@ami-care.nl"
+            href={`mailto:${email}`}
             class="text-ink hover:text-accent transition-colors"
           >
-            info@ami-care.nl
+            {email}
           </a>
         </p>
       </div>
@@ -51,6 +63,6 @@ const year = new Date().getFullYear();
   <div class="border-t border-rule my-8 max-w-7xl mx-auto"></div>
 
   <p class="mx-auto max-w-7xl text-center md:text-left text-[12px] tracking-[0.04em] text-ink-muted/70">
-    &copy; {year} Amicare-Zorg
+    &copy; {year} {brand}
   </p>
 </footer>
