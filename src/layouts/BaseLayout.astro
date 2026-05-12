@@ -33,13 +33,17 @@ const site = await getSite();
     {site?.nap && <JsonLdLocalBusiness site={site} />}
   </head>
   <body class="bg-bg text-ink">
-    <Nav client:load brand={site?.brand ?? 'Amicare-Zorg'} links={site?.nav ?? null} />
+    <Nav
+      client:load
+      brand={site?.siteName ?? 'Amicare-Zorg'}
+      links={site?.navigation ?? null}
+    />
     <main>
       <slot />
     </main>
     <Footer
-      brand={site?.brand ?? 'AMICARE-ZORG'}
-      email={site?.nap?.email ?? 'info@ami-care.nl'}
+      brand={site?.siteName ?? 'AMICARE-ZORG'}
+      email={site?.contactEmail ?? 'info@ami-care.nl'}
       tagline={site?.description ?? 'Jeugdzorg met hart en toewijding.'}
     />
   </body>

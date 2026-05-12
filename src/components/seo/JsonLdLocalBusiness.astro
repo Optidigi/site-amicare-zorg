@@ -7,34 +7,44 @@ interface Props {
 
 const { site } = Astro.props;
 
+// Map Payload-projected weekday names (lowercase full names) to schema.org's
+// schema-friendly Day enum (Monday/Tuesday/…).
 const dayMap: Record<string, string> = {
-  Mo: 'Monday', Tu: 'Tuesday', We: 'Wednesday', Th: 'Thursday',
-  Fr: 'Friday', Sa: 'Saturday', Su: 'Sunday',
+  monday: 'Monday',
+  tuesday: 'Tuesday',
+  wednesday: 'Wednesday',
+  thursday: 'Thursday',
+  friday: 'Friday',
+  saturday: 'Saturday',
+  sunday: 'Sunday',
 };
 
 const data = site.nap
   ? {
       '@context': 'https://schema.org',
       '@type': 'LocalBusiness',
-      name: site.nap.displayName,
-      legalName: site.nap.legalName,
-      url: `https://${site.primaryDomain}`,
-      telephone: site.nap.phone,
-      email: site.nap.email,
+      name: site.siteName,
+      legalName: site.nap.legalName ?? undefined,
+      url: site.siteUrl,
+      telephone: site.contact?.phone ?? undefined,
+      email: site.contactEmail ?? undefined,
       address: {
         '@type': 'PostalAddress',
-        streetAddress: site.nap.street,
-        postalCode: site.nap.postalCode,
-        addressLocality: site.nap.city,
-        addressCountry: site.nap.country,
+        streetAddress: site.nap.streetAddress ?? undefined,
+        postalCode: site.nap.postalCode ?? undefined,
+        addressLocality: site.nap.city ?? undefined,
+        addressRegion: site.nap.region ?? undefined,
+        addressCountry: site.nap.country ?? undefined,
       },
-      areaServed: site.serviceArea,
-      openingHoursSpecification: site.hours?.map((h) => ({
-        '@type': 'OpeningHoursSpecification',
-        dayOfWeek: dayMap[h.dayOfWeek],
-        opens: h.opens,
-        closes: h.closes,
-      })),
+      areaServed: (site.serviceArea ?? []).map((s) => s.name),
+      openingHoursSpecification: (site.hours ?? [])
+        .filter((h) => !h.closed && h.open && h.close)
+        .map((h) => ({
+          '@type': 'OpeningHoursSpecification',
+          dayOfWeek: dayMap[h.day] ?? h.day,
+          opens: h.open,
+          closes: h.close,
+        })),
     }
   : null;
 ---

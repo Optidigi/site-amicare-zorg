@@ -96,39 +96,55 @@ export type Page = {
   updatedAt: string;
 };
 
+// SiteSettings type — mirrors siab-payload's settingsToJson projection
+// (see /home/shimmy/Desktop/env/siab/siab-payload/src/lib/projection/settingsToJson.ts).
+//
+// The orchestrator's scaffolded SiteSettings type mirrors the OLDER template's
+// src/content/site.ts SiteConfig (brand/primaryDomain/socials/nav) which DOES NOT
+// match what the CMS reader actually loads from disk. The Payload-projected JSON
+// is the authoritative runtime shape — all field accesses in BaseLayout +
+// src/components/seo/*.astro use these names.
+
 export type NAP = {
-  legalName: string;
-  displayName: string;
-  street: string;
-  postalCode: string;
-  city: string;
-  country: string;
-  phone: string;
-  email: string;
+  legalName?: string | null;
+  streetAddress?: string | null;
+  city?: string | null;
+  region?: string | null;
+  postalCode?: string | null;
+  country?: string | null;
 };
 
 export type OpeningHours = {
-  dayOfWeek: 'Mo' | 'Tu' | 'We' | 'Th' | 'Fr' | 'Sa' | 'Su';
-  opens: string;
-  closes: string;
+  day: 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday';
+  open?: string | null;     // 'HH:MM'
+  close?: string | null;
+  closed?: boolean;
 };
 
+export type SocialLink = { platform: string; url: string };
+export type NavLink = { label: string; href: string; external?: boolean };
+export type Alias = { host: string };
+export type ServiceAreaEntry = { name: string };
+
 export type SiteSettings = {
-  brand: string;
+  siteName: string;
+  siteUrl: string;                 // includes protocol — e.g. https://ami-care.nl
+  description?: string | null;
   language: string;
-  primaryDomain: string;
-  aliases: string[];
-  description: string;
-  nap?: NAP;
+  aliases?: Alias[];
+  contactEmail?: string | null;
+  branding?: {
+    logo?: { url?: string | null; filename?: string | null } | null;
+    primaryColor?: string | null;
+  } | null;
+  contact?: {
+    phone?: string | null;
+    address?: string | null;
+    social?: SocialLink[];
+  } | null;
+  nap?: NAP | null;
   hours?: OpeningHours[];
-  serviceArea?: string[];
-  socials: {
-    facebook?: string;
-    instagram?: string;
-    linkedin?: string;
-    youtube?: string;
-    x?: string;
-  };
-  nav: { label: string; href: string }[];
-  updatedAt: string;
+  serviceArea?: ServiceAreaEntry[];
+  navigation?: NavLink[];
+  updatedAt?: string;
 };

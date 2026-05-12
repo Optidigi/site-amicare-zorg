@@ -12,7 +12,7 @@ interface Props {
 
 const { title, description, ogImage, noindex = false, canonical } = Astro.props;
 const site = await getSite();
-const brand = site?.brand ?? 'Amicare-Zorg';
+const brand = site?.siteName ?? 'Amicare-Zorg';
 const language = site?.language ?? 'nl';
 
 const ogImageUrl = new URL(ogImage ?? '/og-default.png', Astro.site).toString();

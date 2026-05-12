@@ -7,13 +7,17 @@ interface Props {
 
 const { site } = Astro.props;
 
+const sameAs = (site.contact?.social ?? [])
+  .map((s) => s.url)
+  .filter((url): url is string => typeof url === 'string' && url.length > 0);
+
 const data = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
-  name: site.brand,
-  url: `https://${site.primaryDomain}`,
-  description: site.description,
-  sameAs: Object.values(site.socials ?? {}).filter(Boolean),
+  name: site.siteName,
+  url: site.siteUrl,
+  description: site.description ?? undefined,
+  sameAs,
 };
 ---
 
