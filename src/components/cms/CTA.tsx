@@ -91,14 +91,14 @@ export default function CTA({
           </p>
         )}
 
-        {primaryLabel && primaryHref && (
-          <a
-            href={primaryHref}
-            class="mt-7 inline-block rounded-full bg-accent px-6 py-3 text-[14px] font-medium text-bg transition-colors hover:bg-accent/90"
-          >
-            {primaryLabel}
-          </a>
-        )}
+        {/*
+          Quote-style intentionally suppresses the primary button.
+          Payload's CTA schema requires `primary.label` + `primary.href`
+          (both `required: true`), so the operator must supply a placeholder
+          on quote blocks — but the button is part of the "contact" layout,
+          not this one. If you want a button under a quote, use a separate
+          CTA block in contact-style (primary.href = mailto:/tel:/external).
+        */}
       </div>
     </section>
   )

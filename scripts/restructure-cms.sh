@@ -23,7 +23,10 @@ TID="${1:?tenant id required as first argument}"
 echo "[restructure-cms] tenant=${TID} api=${PAYLOAD_API_URL}"
 
 # Find the home page for this tenant.
-PAGE_RESP=$(curl -fsS \
+# `--globoff` disables curl's URL globbing so the bracketed query params
+# (Payload's `where[tenant][equals]=...` filter syntax) aren't interpreted
+# as range expansions.
+PAGE_RESP=$(curl -fsS --globoff \
   "${PAYLOAD_API_URL}/api/pages?where[tenant][equals]=${TID}&where[slug][equals]=index&depth=0&limit=1" \
   -H "Authorization: users API-Key ${PAYLOAD_API_TOKEN}")
 
@@ -74,7 +77,11 @@ BLOCKS=$(jq -n '[
   {
     blockType: "cta",
     headline: "Vertrouwen ontstaat in de tijd, niet in één gesprek.",
-    description: "Daarom werk ik graag in trajecten waar continuïteit en kleine stappen het echte werk doen — voor jongeren, voor gezinnen, en voor de mensen om hen heen."
+    description: "Daarom werk ik graag in trajecten waar continuïteit en kleine stappen het echte werk doen — voor jongeren, voor gezinnen, en voor de mensen om hen heen.",
+    primary: {
+      label: "(unused — required by schema, suppressed by quote-style renderer)",
+      href: "#"
+    }
   },
   {
     blockType: "cta",
