@@ -25,16 +25,19 @@ interface Props {
 
 const { blocks, resolveMedia, hydrate = false } = Astro.props
 const list = blocks ?? []
-// Default resolver: prefer the populated `.url` from a Media-like object.
-// If only a bare id is present, return null — we have no extension info,
-// so guessing (e.g. `.jpg`) would 404 for png/webp/svg uploads. Production
-// projection always populates the object, so the null branch only fires
-// for malformed data; renderers gracefully omit the image in that case.
+// Default resolver: prefer the populated `.filename` and serve it from this
+// site's local /media/<filename> route (backed by `src/pages/media/[...path].ts`,
+// which reads from $CMS_DATA_DIR/media/). Falls back to `.url` (Payload's
+// /api/media/file/X path) only if filename is missing — that fallback path
+// 404s on the tenant frontend, so it's primarily a debug breadcrumb.
 const resolve =
   resolveMedia ??
   ((ref: MediaRef) => {
     if (ref == null) return null
-    if (typeof ref === "object" && "url" in ref && ref.url) return ref.url
+    if (typeof ref === "object") {
+      if (ref.filename) return `/media/${ref.filename}`
+      if ("url" in ref && ref.url) return ref.url
+    }
     return null
   })
 ---
