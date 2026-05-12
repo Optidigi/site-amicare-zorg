@@ -23,14 +23,20 @@ type FocusBlockMessage = {
 }
 
 type Props = {
-  allowedOrigin: string
+  // EITHER admin origin may be the iframe parent: super-admin
+  // (admin.siteinabox.nl) or the tenant admin (admin.<own-host>).
+  // siab-payload routes both to the same Next.js admin app via NPM and
+  // the admin UI auto-switches tenant context based on the host. The
+  // iframe doesn't know which one loaded it ahead of time, so we
+  // filter postMessage origins against the full allowed list.
+  allowedOrigins: string[]
   cmsOrigin: string
 }
 
 /**
- * Preview island. Server-rendered as null; on mount (client:load) registers
- * postMessage listener. On `preview:draft` from the admin origin, swaps in
- * the rendered block tree.
+ * Preview island. Server-rendered as null; on mount (client:only) registers
+ * postMessage listener. On `preview:draft` from any allowed admin origin,
+ * swaps in the rendered block tree.
  *
  * Sends:
  *  - preview:ready  once after first hydration
@@ -41,8 +47,15 @@ type Props = {
  * Receives:
  *  - preview:draft  block tree updates
  *  - preview:focus-block  scroll + outline a block by index (admin → iframe)
+ *
+ * Outbound postMessages use '*' as target origin: we don't know which
+ * specific admin loaded us, and the messages here are non-sensitive
+ * (handshake + heartbeat + click-index). The admin filters incoming
+ * messages by origin on its side, which is the real security boundary.
+ * frame-ancestors in the response CSP ensures only listed admins can
+ * iframe this page in the first place.
  */
-export default function PreviewIsland({ allowedOrigin, cmsOrigin }: Props) {
+export default function PreviewIsland({ allowedOrigins, cmsOrigin }: Props) {
   const [draft, setDraft] = useState<{ blocks: Block[] } | null>(null)
   const savedScrollRef = useRef<number | null>(null)
   const lastFocusSeqRef = useRef<number>(-1)
@@ -50,7 +63,7 @@ export default function PreviewIsland({ allowedOrigin, cmsOrigin }: Props) {
 
   useEffect(() => {
     const onMessage = (e: MessageEvent) => {
-      if (e.origin !== allowedOrigin) return
+      if (!allowedOrigins.includes(e.origin)) return
       const data = e.data as
         | Partial<DraftMessage>
         | Partial<FocusBlockMessage>
@@ -88,7 +101,7 @@ export default function PreviewIsland({ allowedOrigin, cmsOrigin }: Props) {
 
     // Send ready handshake to parent.
     if (window.parent !== window) {
-      window.parent.postMessage({ type: "preview:ready", version: 1 }, allowedOrigin)
+      window.parent.postMessage({ type: "preview:ready", version: 1 }, "*")
     }
 
     // Heartbeat every 30s.
@@ -96,7 +109,7 @@ export default function PreviewIsland({ allowedOrigin, cmsOrigin }: Props) {
       if (window.parent !== window) {
         window.parent.postMessage(
           { type: "preview:heartbeat", version: 1, ts: Date.now() },
-          allowedOrigin,
+          "*",
         )
       }
     }, 30000)
@@ -108,7 +121,8 @@ export default function PreviewIsland({ allowedOrigin, cmsOrigin }: Props) {
         clearTimeout(highlightTimerRef.current)
       }
     }
-  }, [allowedOrigin])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [allowedOrigins.join(",")])
 
   // Restore scroll position after each draft commit. useLayoutEffect runs
   // synchronously after DOM updates, so the user doesn't see a flash of
@@ -131,7 +145,6 @@ export default function PreviewIsland({ allowedOrigin, cmsOrigin }: Props) {
       <PreactBlocks
         blocks={draft.blocks}
         cmsOrigin={cmsOrigin}
-        allowedOrigin={allowedOrigin}
       />
     </>
   )
@@ -142,11 +155,9 @@ export default function PreviewIsland({ allowedOrigin, cmsOrigin }: Props) {
 function PreactBlocks({
   blocks,
   cmsOrigin,
-  allowedOrigin,
 }: {
   blocks: Block[]
   cmsOrigin: string
-  allowedOrigin: string
 }) {
   // Preview-mode resolver: prefer populated url (Payload depth>=1 returns
   // full Media objects); otherwise fall back to CMS-origin id-based path.
@@ -176,7 +187,7 @@ function PreactBlocks({
     if (window.parent !== window) {
       window.parent.postMessage(
         { type: "preview:click-block", version: 1, index: idx },
-        allowedOrigin,
+        "*",
       )
     }
   }

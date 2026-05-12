@@ -19,10 +19,19 @@ if (!claims) {
   return new Response("Unauthorized", { status: 401 })
 }
 
-const allowedOrigin = process.env.PUBLIC_ADMIN_ORIGIN ?? "https://admin.siteinabox.nl"
-// CMS and admin share the same origin in our deployment model. If they
-// ever split, set PUBLIC_CMS_ORIGIN separately.
-const cmsOrigin = allowedOrigin
+const superAdminOrigin = process.env.PUBLIC_ADMIN_ORIGIN ?? "https://admin.siteinabox.nl"
+const tenantAdminOrigin = `https://admin.${Astro.url.hostname}`
+// EITHER admin origin may be the iframe parent: super-admin
+// (admin.siteinabox.nl) or the tenant admin (admin.<own-host>). siab-payload
+// routes both to the same Next.js admin app via NPM, and the admin UI's
+// host-to-tenant logic auto-context-switches when accessed via the tenant
+// admin. PreviewIsland filters incoming postMessages against this list and
+// uses '*' for outbound messages (the messages aren't sensitive — preview
+// handshake + heartbeat + click-block only).
+const allowedOrigins = Array.from(new Set([superAdminOrigin, tenantAdminOrigin]))
+// CMS-origin used by the resolver for prefixing Payload media URLs in the
+// admin-side preview path. The CMS is always the super-admin's Payload.
+const cmsOrigin = superAdminOrigin
 ---
 
 <PreviewLayout>
@@ -34,5 +43,5 @@ const cmsOrigin = allowedOrigin
     null or undefined when rendered on the server"). client:only outputs an
     empty placeholder during SSR and hydrates the island on the client.
   */}
-  <PreviewIsland client:only="preact" allowedOrigin={allowedOrigin} cmsOrigin={cmsOrigin} />
+  <PreviewIsland client:only="preact" allowedOrigins={allowedOrigins} cmsOrigin={cmsOrigin} />
 </PreviewLayout>

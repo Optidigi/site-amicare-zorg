@@ -33,15 +33,33 @@ export const onRequest = defineMiddleware(async (ctx, next) => {
     ctx.url.pathname === "/preview" || ctx.url.pathname.startsWith("/preview/")
 
   if (isPreview) {
-    // Allow framing by the admin origin only.
+    // Allow framing by EITHER admin origin:
+    //  - the super-admin (admin.siteinabox.nl)
+    //  - the tenant admin computed from the current request host
+    //    (e.g. ami-care.nl → admin.ami-care.nl)
+    // siab-payload routes both to the same Next.js app via NPM proxy hosts,
+    // and `hostToTenant.stripAdminPrefix` auto-context-switches the admin UI
+    // into the matching tenant when accessed via admin.<tenant-domain>.
+    // Without including both here, frame-ancestors blocks the iframe from
+    // the tenant-domain admin.
+    const tenantAdminOrigin = `https://admin.${ctx.url.hostname}`
+    const adminOrigins = Array.from(new Set([ADMIN_ORIGIN, tenantAdminOrigin]))
+    const frameAncestors = adminOrigins.join(" ")
+    const connectSrcAdmin = adminOrigins.join(" ")
+
+    // Access-Control-Allow-Origin is single-value per spec — echo the
+    // request's Origin if it's in the allowlist, else fall back to the
+    // super-admin. `Vary: Origin` is set so caches don't reuse the wrong
+    // ACAO header for a different requester.
+    const reqOrigin = ctx.request.headers.get("origin") ?? ""
+    const acaoValue = adminOrigins.includes(reqOrigin) ? reqOrigin : ADMIN_ORIGIN
+
     res.headers.delete("X-Frame-Options")
     res.headers.set(
       "Content-Security-Policy",
-      // Note: 'unsafe-inline' kept narrow; preview hydration uses no
-      // dynamic eval. frame-ancestors permits ONLY admin origin.
-      `default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' ${ADMIN_ORIGIN}; frame-ancestors ${ADMIN_ORIGIN}`,
+      `default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' ${connectSrcAdmin}; frame-ancestors ${frameAncestors}`,
     )
-    res.headers.set("Access-Control-Allow-Origin", ADMIN_ORIGIN)
+    res.headers.set("Access-Control-Allow-Origin", acaoValue)
     res.headers.set("Vary", "Origin")
   } else {
     // Strict defaults for non-preview routes — ported from the prior
