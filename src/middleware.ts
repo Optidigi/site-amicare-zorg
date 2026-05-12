@@ -42,7 +42,18 @@ export const onRequest = defineMiddleware(async (ctx, next) => {
     // into the matching tenant when accessed via admin.<tenant-domain>.
     // Without including both here, frame-ancestors blocks the iframe from
     // the tenant-domain admin.
-    const tenantAdminOrigin = `https://admin.${ctx.url.hostname}`
+    //
+    // Use forwarded-host headers — `ctx.url.hostname` reports the internal
+    // bind host ("localhost") behind a reverse proxy, not the public
+    // domain. NPM forwards the original Host header; prefer
+    // X-Forwarded-Host if set, fall back to Host, then ctx.url.hostname.
+    // Strip port (Host may include ":80" / ":443").
+    const rawHost =
+      ctx.request.headers.get("x-forwarded-host") ??
+      ctx.request.headers.get("host") ??
+      ctx.url.hostname
+    const publicHost = (rawHost || "").split(":")[0] || "localhost"
+    const tenantAdminOrigin = `https://admin.${publicHost}`
     const adminOrigins = Array.from(new Set([ADMIN_ORIGIN, tenantAdminOrigin]))
     const frameAncestors = adminOrigins.join(" ")
     const connectSrcAdmin = adminOrigins.join(" ")

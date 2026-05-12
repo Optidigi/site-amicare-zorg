@@ -20,7 +20,15 @@ if (!claims) {
 }
 
 const superAdminOrigin = process.env.PUBLIC_ADMIN_ORIGIN ?? "https://admin.siteinabox.nl"
-const tenantAdminOrigin = `https://admin.${Astro.url.hostname}`
+// Use forwarded-host headers — Astro.url.hostname reports the internal bind
+// host (e.g. "localhost") behind a reverse proxy. NPM forwards the original
+// Host header; prefer X-Forwarded-Host, fall back to Host, then url.hostname.
+const rawHost =
+  Astro.request.headers.get("x-forwarded-host") ??
+  Astro.request.headers.get("host") ??
+  Astro.url.hostname
+const publicHost = (rawHost || "").split(":")[0] || "localhost"
+const tenantAdminOrigin = `https://admin.${publicHost}`
 // EITHER admin origin may be the iframe parent: super-admin
 // (admin.siteinabox.nl) or the tenant admin (admin.<own-host>). siab-payload
 // routes both to the same Next.js admin app via NPM, and the admin UI's
