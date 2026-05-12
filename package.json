@@ -10,10 +10,12 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "start": "node ./dist/server/entry.mjs",
     "astro": "astro",
     "og": "node scripts/build-og.mjs"
   },
   "dependencies": {
+    "@astrojs/node": "^10.1.0",
     "@astrojs/preact": "^5.1.2",
     "@astrojs/react": "^5.0.4",
     "@astrojs/sitemap": "^3.7.2",
