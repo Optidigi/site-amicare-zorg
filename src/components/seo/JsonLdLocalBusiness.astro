@@ -1,9 +1,11 @@
 ---
-import { site } from '../../content/site';
+import type { SiteSettings } from '../../lib/types';
 
-if (!site.nap) {
-  // No NAP supplied → render nothing.
+interface Props {
+  site: SiteSettings;
 }
+
+const { site } = Astro.props;
 
 const dayMap: Record<string, string> = {
   Mo: 'Monday', Tu: 'Tuesday', We: 'Wednesday', Th: 'Thursday',

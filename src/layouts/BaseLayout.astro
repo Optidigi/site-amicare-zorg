@@ -5,7 +5,7 @@ import JsonLdOrganization from '../components/seo/JsonLdOrganization.astro';
 import JsonLdLocalBusiness from '../components/seo/JsonLdLocalBusiness.astro';
 import Nav from '../components/Nav.tsx';
 import Footer from '../components/Footer.astro';
-import { site } from '../content/site';
+import { getSite } from '../lib/cms';
 
 interface Props {
   title: string;
@@ -15,10 +15,11 @@ interface Props {
 }
 
 const { title, description, ogImage, noindex } = Astro.props;
+const site = await getSite();
 ---
 
 <!doctype html>
-<html lang={site.language}>
+<html lang={site?.language ?? 'nl'}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -28,14 +29,18 @@ const { title, description, ogImage, noindex } = Astro.props;
     <link rel="sitemap" href="/sitemap-index.xml" />
     <meta name="generator" content={Astro.generator} />
     <Seo title={title} description={description} ogImage={ogImage} noindex={noindex} />
-    <JsonLdOrganization />
-    <JsonLdLocalBusiness />
+    {site && <JsonLdOrganization site={site} />}
+    {site?.nap && <JsonLdLocalBusiness site={site} />}
   </head>
   <body class="bg-bg text-ink">
-    <Nav client:load brand={site.brand} links={site.nav} />
+    <Nav client:load brand={site?.brand ?? 'Amicare-Zorg'} links={site?.nav ?? null} />
     <main>
       <slot />
     </main>
-    <Footer brand={site.brand} email={site.nap?.email} tagline={site.description} />
+    <Footer
+      brand={site?.brand ?? 'AMICARE-ZORG'}
+      email={site?.nap?.email ?? 'info@ami-care.nl'}
+      tagline={site?.description ?? 'Jeugdzorg met hart en toewijding.'}
+    />
   </body>
 </html>

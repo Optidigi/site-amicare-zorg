@@ -1,6 +1,6 @@
 ---
 import { SEO } from 'astro-seo';
-import { site } from '../../content/site';
+import { getSite } from '../../lib/cms';
 
 interface Props {
   title: string;
@@ -11,10 +11,13 @@ interface Props {
 }
 
 const { title, description, ogImage, noindex = false, canonical } = Astro.props;
+const site = await getSite();
+const brand = site?.brand ?? 'Amicare-Zorg';
+const language = site?.language ?? 'nl';
 
 const ogImageUrl = new URL(ogImage ?? '/og-default.png', Astro.site).toString();
 const canonicalUrl = canonical ?? Astro.url.toString();
-const fullTitle = title === site.brand ? title : `${title} | ${site.brand}`;
+const fullTitle = title === brand ? title : `${title} | ${brand}`;
 ---
 
 <SEO
@@ -30,9 +33,9 @@ const fullTitle = title === site.brand ? title : `${title} | ${site.brand}`;
       url: canonicalUrl,
     },
     optional: {
-      siteName: site.brand,
+      siteName: brand,
       description,
-      locale: site.language,
+      locale: language,
     },
   }}
   twitter={{

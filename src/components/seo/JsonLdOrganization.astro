@@ -1,5 +1,11 @@
 ---
-import { site } from '../../content/site';
+import type { SiteSettings } from '../../lib/types';
+
+interface Props {
+  site: SiteSettings;
+}
+
+const { site } = Astro.props;
 
 const data = {
   '@context': 'https://schema.org',
@@ -7,7 +13,7 @@ const data = {
   name: site.brand,
   url: `https://${site.primaryDomain}`,
   description: site.description,
-  sameAs: Object.values(site.socials).filter(Boolean),
+  sameAs: Object.values(site.socials ?? {}).filter(Boolean),
 };
 ---
 
