@@ -26,5 +26,13 @@ const cmsOrigin = allowedOrigin
 ---
 
 <PreviewLayout>
-  <PreviewIsland client:load allowedOrigin={allowedOrigin} cmsOrigin={cmsOrigin} />
+  {/*
+    `client:only="preact"` skips SSR for the PreviewIsland. PreviewIsland
+    intentionally returns `null` until the admin posts a draft message, but
+    Astro's SSR refuses to render a component that returns `null|undefined`
+    (logs "Unable to render PreviewIsland! 2. Does not conditionally return
+    null or undefined when rendered on the server"). client:only outputs an
+    empty placeholder during SSR and hydrates the island on the client.
+  */}
+  <PreviewIsland client:only="preact" allowedOrigin={allowedOrigin} cmsOrigin={cmsOrigin} />
 </PreviewLayout>
