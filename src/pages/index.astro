@@ -1,20 +1,17 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { getEntry, render } from 'astro:content';
+import Blocks from '../components/cms/Blocks.astro';
+import { getPage } from '../lib/cms';
 
-const home = await getEntry('pages', 'index');
-if (!home) {
-  throw new Error('Missing required content entry: pages/index');
-}
-const { Content } = await render(home);
+const page = await getPage('index');
 ---
 
 <BaseLayout
-  title={home.data.title}
-  description={home.data.description}
-  ogImage={home.data.ogImage}
+  title={page?.title ?? ''}
+  description={page?.description ?? ''}
+  ogImage={page?.ogImage}
 >
   <main class="prose mx-auto max-w-3xl px-4 py-16">
-    <Content />
+    <Blocks blocks={page?.blocks} />
   </main>
 </BaseLayout>
