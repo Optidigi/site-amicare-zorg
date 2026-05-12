@@ -61,13 +61,34 @@ export default function CTA({
     )
   }
 
-  // Quote-style (Wat telt) — no primary button required
+  // Quote-style (Wat telt) — no primary button required.
+  //
+  // Backdrop image: hardcoded to /media/bedroom.jpg. The original amicare
+  // WatTelt.tsx used a soft bedroom-scene backdrop at ~12% opacity behind
+  // the quote, behind a cream gradient overlay for legibility. The cms
+  // Payload schema has no image field on the CTA block (only Hero), so this
+  // can't be editor-driven — it's a fixed brand asset, uploaded into
+  // tenant media on /add-cms and served from the site's local /media/
+  // route (backed by CMS_DATA_DIR/media/). To brand a different tenant's
+  // quote section, replace bedroom.jpg in their tenant media volume.
   return (
     <section
       id="wat-telt"
       class="cms-block cms-block--cta cms-block--cta-quote relative isolate overflow-hidden bg-secondary/40 px-6 py-24 md:px-12 md:py-28"
       data-block-index={dataBlockIndex}
     >
+      <img
+        aria-hidden="true"
+        src="/media/bedroom.jpg"
+        alt=""
+        loading="lazy"
+        decoding="async"
+        class="pointer-events-none absolute inset-0 -z-10 h-full w-full object-cover opacity-[0.12]"
+      />
+      <div
+        aria-hidden="true"
+        class="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-bg/70 via-bg/50 to-bg/70"
+      />
       <div
         aria-hidden="true"
         class="pointer-events-none absolute -bottom-[20%] -right-[10%] -z-10 h-[300px] w-[300px] rounded-full bg-accent/10 blur-3xl"
