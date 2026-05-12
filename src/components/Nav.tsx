@@ -1,3 +1,4 @@
+/** @jsxImportSource react */
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { useEffect, useState } from 'react';

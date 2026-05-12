@@ -1,3 +1,4 @@
+/** @jsxImportSource react */
 import { motion } from 'framer-motion';
 import { Clock, Ear, HeartHandshake } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
