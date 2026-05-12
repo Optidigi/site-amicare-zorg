@@ -1,9 +1,11 @@
 ---
-import Base from '../layouts/Base.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
 ---
-<Base
+
+<BaseLayout
   title="Pagina niet gevonden — Amicare-Zorg"
   description="Deze pagina bestaat niet."
+  noindex={true}
 >
   <main class="min-h-screen flex items-center justify-center px-6">
     <div class="max-w-prose mx-auto text-center space-y-8">
@@ -20,4 +22,4 @@ import Base from '../layouts/Base.astro';
       </p>
     </div>
   </main>
-</Base>
+</BaseLayout>
