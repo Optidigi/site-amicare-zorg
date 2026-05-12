@@ -66,3 +66,24 @@ the next request to the SSR site renders with full Zen design.
 
 Editor changes in Payload admin after this point flow through normally
 (JSON re-projected on save, next request reads fresh).
+
+### Runtime details (post-conversion)
+
+This site reads editorial content from a per-tenant Payload CMS data directory mounted into the container at `/data`. Editor changes are visible on the next request — there is no rebuild on content edits.
+
+**Required runtime env:**
+
+- `CMS_DATA_DIR` — defaults to `/data`. Where the per-tenant data is mounted.
+- `SITE_URL` — public site URL (e.g. `https://ami-care.nl`).
+
+**Required volume:**
+
+- Mount the per-tenant data dir at `/data:ro`. See `docker-compose.cms.yml.example`.
+
+**Editor:**
+
+The Payload tenant has an editor user; the operator manages account access.
+
+**Failure modes:**
+
+If `/data` is not mounted, or any page JSON is missing/malformed, the site renders with empty editorial fields. Pages always return 200; `/healthz` returns 200 unconditionally for container healthchecks.
